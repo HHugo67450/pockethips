@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_hips/notifiers/filters/filters_notifier.dart';
 import 'package:pocket_hips/notifiers/hips/hips_total_notifier.dart';
+import 'package:pocket_hips/widgets/hips/hips_list.dart';
 import 'package:pocket_hips/widgets/hips/hips_total_display.dart';
 
 import '../widgets/filters/filters_burger_menu.dart';
@@ -67,7 +67,7 @@ class _ExploreState extends ConsumerState<Explore> {
 
             HipsTotalDisplay(hipsTotalAsync: hipsTotalAsync),
 
-            const SliverFillRemaining(),
+            const SliverFillRemaining(child: HipsList()),
           ],
         ),
     );
