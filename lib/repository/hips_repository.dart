@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../data/hips_registry.dart';
+import '../data/hips/hips_registry.dart';
 
 class HipsRepository {
 
@@ -25,3 +26,5 @@ class HipsRepository {
     }
   }
 }
+
+final hipsRepositoryProvider = Provider((ref) => HipsRepository());
