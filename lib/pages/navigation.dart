@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_hips/pages/random_hips.dart';
 
 import 'explore.dart';
 
@@ -14,6 +15,7 @@ class _NavigationState extends State<Navigation> {
 
   final List<Widget> _pages = const [
     Explore(),
+    RandomHips(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,6 +39,10 @@ class _NavigationState extends State<Navigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),
             label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.casino),
+            label: "Random HiPS"
           ),
         ],
       ),
