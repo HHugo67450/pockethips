@@ -7,21 +7,57 @@ class HipsCard extends ConsumerWidget {
 
   const HipsCard({super.key, required this.hipsDetail});
 
+  Widget _content(BuildContext context, WidgetRef ref) {
+    final title = hipsDetail.title;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        IconButton(
+            onPressed: () {
+              // TODO : Ajouter le HiPS aux favoris
+            },
+            icon: Icon(
+              Icons.star_border,
+              color: Colors.amber,
+            ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              hipsDetail.title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            // Add more details here if needed
-          ],
+    return GestureDetector(
+      onTap: () {
+        // TODO : Ouvrir les infos d'un HiPS
+      },
+
+      child: Card(
+        color: const Color(0xFF161B22),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: _content(context, ref)
         ),
       ),
     );

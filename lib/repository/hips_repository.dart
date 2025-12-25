@@ -23,7 +23,7 @@ class HipsRepository {
       }
     } catch (e, st) {
       debugPrint(
-        '[HipsRepository][ERROR] Exception while fetching HIPS registry\n$e\n$st',
+        '[HipsRepository][ERROR] Exception while fetching HIPS registry $e $st',
       );
       rethrow;
     }
@@ -50,7 +50,7 @@ class HipsRepository {
       }
     } catch (e, st) {
       debugPrint(
-        '[HipsRepository][ERROR] Exception while fetching HIPS total\n$e\n$st',
+        '[HipsRepository][ERROR] Exception while fetching HIPS total $e $st',
       );
       rethrow;
     }
@@ -71,17 +71,19 @@ class HipsRepository {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body) as List<dynamic>;
-        return json.map((json) => HipsDetail.fromJson(json)).toList();
+        return json.map((js) => HipsDetail.fromJson(js)).toList();
       } else {
         throw Exception('Failed to get hips detail');
       }
     } catch (e, st) {
       debugPrint(
-        '[HipsRepository][ERROR] Exception while fetching HIPS detail\n$e\n$st',
+        '[HipsRepository][ERROR] Exception while fetching HIPS detail $e $st',
       );
       rethrow;
     }
   }
+
+
 }
 
 String replaceUrlWithWildcards(String url) {

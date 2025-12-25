@@ -54,6 +54,16 @@ class HipsDetail {
   }
 
   factory HipsDetail.fromJson(Map<String, dynamic> json) {
+    String parseString(dynamic value) {
+      if (value is String) {
+        return value;
+      }
+      if (value is List) {
+        return value.join(' ');
+      }
+      return '';
+    }
+
     double parseDouble(dynamic value) {
       if (value == null) return 0.0;
       if (value is double) return value;
@@ -63,12 +73,12 @@ class HipsDetail {
     }
 
     return HipsDetail(
-      id: json['ID'] ?? '',
-      title: json['obs_title'] ?? '',
-      collection: json['obs_collection'] ?? '',
-      description: json['obs_description'] ?? '',
-      observatory: json['obs_copyright'] ?? '',
-      serviceUrl: json['hips_service_url'] ?? '',
+      id: parseString(json['ID']),
+      title: parseString(json['obs_title']),
+      collection: parseString(json['obs_collection']),
+      description: parseString(json['obs_description']),
+      observatory: parseString(json['obs_copyright']),
+      serviceUrl: parseString(json['hips_service_url']),
       defaultRa: parseDouble(json['hips_initial_ra']),
       defaultDec: parseDouble(json['hips_initial_dec']),
       defaultFov: parseDouble(json['hips_initial_fov']),
