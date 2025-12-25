@@ -38,9 +38,6 @@ class HipsRepository {
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
 
-    debugPrint('[HipsRepository] Provider URL: ${replaceUrlWithWildcards(providerUrl)}');
-    debugPrint('[HipsRepository] Fetching HIPS total for URI: $uri');
-
     try {
       final response = await http.get(uri);
 
@@ -61,8 +58,7 @@ class HipsRepository {
 
 String replaceUrlWithWildcards(String url) {
   final uri = Uri.parse(url);
-  final baseUrl = '//${uri.host}/';
-  return '*$baseUrl*';
+  return '*${uri.host}*';
 }
 
 final hipsRepositoryProvider = Provider((ref) => HipsRepository());
