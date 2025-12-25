@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +27,42 @@ class HipsRepository {
       rethrow;
     }
   }
+
+  Future<int?> getHipsTotal(String providerUrl) async {
+    const url = 'https://alasky.cds.unistra.fr/MocServer/query';
+    final queryParameters = <String, String> {
+      'hips_service_url': replaceUrlWithWildcards(providerUrl),
+      'get': 'number',
+      'fmt': 'json',
+    };
+
+    final uri = Uri.parse(url).replace(queryParameters: queryParameters);
+
+    debugPrint('[HipsRepository] Provider URL: ${replaceUrlWithWildcards(providerUrl)}');
+    debugPrint('[HipsRepository] Fetching HIPS total for URI: $uri');
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        return json['number'];
+      } else {
+        throw Exception('Failed to get hips total');
+      }
+    } catch (e, st) {
+      debugPrint(
+        '[HipsRepository][ERROR] Exception while fetching HIPS total\n$e\n$st',
+      );
+      rethrow;
+    }
+  }
+}
+
+String replaceUrlWithWildcards(String url) {
+  final uri = Uri.parse(url);
+  final baseUrl = '//${uri.host}/';
+  return '*$baseUrl*';
 }
 
 final hipsRepositoryProvider = Provider((ref) => HipsRepository());

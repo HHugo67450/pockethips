@@ -1,13 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/filters/filters.dart';
+import '../hips/hips_registry_notifier.dart';
 
 class FiltersNotifier extends Notifier<Filters> {
   bool _initialized = false;
 
   @override
   Filters build() {
-    // TODO : lier les HipsRegistry ensemble par même provider
+    ref.listen(hipsRegistryGroupsProvider, (previous, next) {
+      next.whenData((groups) {
+        final providers = groups.map((group) => group.displayName).toList();
+        initDefaultProvider(providers);
+      });
+    });
     return const Filters();
   }
 
