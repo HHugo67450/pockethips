@@ -56,7 +56,7 @@ class HipsRepository {
     }
   }
 
-  Future<List<HipsDetail>> getHipsDetail(String providerUrl) async {
+  Future<List<HipsDetail>> getHipsDetail(String providerUrl, String providerName) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
@@ -71,7 +71,7 @@ class HipsRepository {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body) as List<dynamic>;
-        return json.map((js) => HipsDetail.fromJson(js)).toList();
+        return json.map((js) => HipsDetail.fromJson(js, provider: providerName)).toList();
       } else {
         throw Exception('Failed to get hips detail');
       }
@@ -83,6 +83,34 @@ class HipsRepository {
     }
   }
 
+  Future<String> getHipsImageUrl(HipsDetail hipsDetail) async {
+    const baseUrl = 'https://alasky.cds.unistra.fr/hips-image-services/hips2fits';
+
+    final ra = hipsDetail.defaultRa.clamp(0.0, 360.0);
+    final dec = hipsDetail.defaultDec.clamp(-90.0, 90.0);
+    final fov = hipsDetail.defaultFov.clamp(0.00001, 180.0);
+
+    final params = {
+      'hips': hipsDetail.id,
+      'ra': ra.toString(),
+      'dec': dec.toString(),
+      'fov': fov.toString(),
+      'width': '512',
+      'height': '512',
+      'projection': 'TAN',
+      'coordsys': 'icrs',
+      'rotation': '45',
+      'format': 'jpg',
+    };
+
+    final query = params.entries
+        .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+
+    final url = '$baseUrl?$query';
+
+    return url;
+  }
 
 }
 

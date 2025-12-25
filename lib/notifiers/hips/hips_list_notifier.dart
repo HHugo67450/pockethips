@@ -27,7 +27,7 @@ class HipsListNotifier extends AsyncNotifier<List<HipsDetail>> {
         (group) => group.displayName == providerName,
       );
       for (final registry in group.hipsRegistries) {
-        futures.add(hipsRepository.getHipsDetail(registry.url));
+        futures.add(hipsRepository.getHipsDetail(registry.url, providerName));
       }
     }
 

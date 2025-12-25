@@ -10,6 +10,7 @@ class HipsDetail {
   final double defaultFov;
   final double tMin;
   final double tMax;
+  final String provider;
 
   HipsDetail({
     required this.id,
@@ -23,6 +24,7 @@ class HipsDetail {
     required this.defaultFov,
     required this.tMin,
     required this.tMax,
+    required this.provider,
   });
 
   HipsDetail copyWith({
@@ -37,6 +39,7 @@ class HipsDetail {
     double? defaultFov,
     double? tMin,
     double? tMax,
+    String? provider,
   }) {
     return HipsDetail(
       id: id ?? this.id,
@@ -50,10 +53,11 @@ class HipsDetail {
       defaultFov: defaultFov ?? this.defaultFov,
       tMin: tMin ?? this.tMin,
       tMax: tMax ?? this.tMax,
+      provider: provider ?? this.provider,
     );
   }
 
-  factory HipsDetail.fromJson(Map<String, dynamic> json) {
+  factory HipsDetail.fromJson(Map<String, dynamic> json, {required String provider}) { // Modifié fromJson pour accepter provider
     String parseString(dynamic value) {
       if (value is String) {
         return value;
@@ -84,6 +88,7 @@ class HipsDetail {
       defaultFov: parseDouble(json['hips_initial_fov']),
       tMin: parseDouble(json['t_min']),
       tMax: parseDouble(json['t_max']),
+      provider: provider,
     );
   }
 }
