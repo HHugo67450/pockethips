@@ -11,7 +11,8 @@ class HipsTotalNotifier extends AsyncNotifier<int> {
   @override
   FutureOr<int> build() async {
     final hipsRepository = ref.watch(hipsRepositoryProvider);
-    final selectedProviders = ref.watch(filtersProvider).selectedProviders;
+    final selectedProviders = ref.watch(filtersProvider
+        .select((filtersState) => filtersState.selectedProviders));
     final hipsRegistryGroups = ref.watch(hipsRegistryGroupsProvider).value ?? [];
 
     if (selectedProviders.isEmpty) {
