@@ -106,6 +106,8 @@ class HipsCard extends ConsumerWidget {
                 runSpacing: 6,
                 children: [
                   _chip(provider),
+                  const SizedBox(),
+                  _chip(hipsDetail.contentType),
                 ],
               ),
             ],

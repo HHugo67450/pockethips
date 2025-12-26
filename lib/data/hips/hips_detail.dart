@@ -11,6 +11,7 @@ class HipsDetail {
   final double tMin;
   final double tMax;
   final String provider;
+  final String contentType;
 
   HipsDetail({
     required this.id,
@@ -25,6 +26,7 @@ class HipsDetail {
     required this.tMin,
     required this.tMax,
     required this.provider,
+    required this.contentType,
   });
 
   HipsDetail copyWith({
@@ -40,6 +42,7 @@ class HipsDetail {
     double? tMin,
     double? tMax,
     String? provider,
+    String? contentType,
   }) {
     return HipsDetail(
       id: id ?? this.id,
@@ -54,10 +57,11 @@ class HipsDetail {
       tMin: tMin ?? this.tMin,
       tMax: tMax ?? this.tMax,
       provider: provider ?? this.provider,
+      contentType: contentType ?? this.contentType,
     );
   }
 
-  factory HipsDetail.fromJson(Map<String, dynamic> json, {required String provider}) { // Modifié fromJson pour accepter provider
+  factory HipsDetail.fromJson(Map<String, dynamic> json, {required String provider}) {
     String parseString(dynamic value) {
       if (value is String) {
         return value;
@@ -89,6 +93,7 @@ class HipsDetail {
       tMin: parseDouble(json['t_min']),
       tMax: parseDouble(json['t_max']),
       provider: provider,
+      contentType: parseString(json['dataproduct_type']),
     );
   }
 }
