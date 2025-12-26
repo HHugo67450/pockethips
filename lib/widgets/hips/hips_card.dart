@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_hips/data/hips/hips_detail.dart';
+import 'package:pocket_hips/pages/hips_detail_page.dart';
 
 import '../../notifiers/hips/hips_image_url_notifier.dart';
 
@@ -123,7 +124,12 @@ class HipsCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        // TODO : Ouvrir les infos d'un HiPS
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HipsDetailPage(hipsDetail: hipsDetail),
+          ),
+        );
       },
 
       child: Card(
