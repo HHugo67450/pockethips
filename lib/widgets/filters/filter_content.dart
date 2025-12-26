@@ -6,7 +6,7 @@ import '../../notifiers/filters/filters_notifier.dart';
 class FilterContent extends ConsumerWidget {
   const FilterContent({super.key});
 
-  static const _contentMap = ['Image', 'Catalog', 'Cube'];
+  static const _contentMap = ['Image', 'Catalog', 'Cube', 'Spec'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

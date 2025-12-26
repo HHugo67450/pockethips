@@ -129,64 +129,69 @@ class FilterRegistries extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedProviders = ref.watch(filtersProvider).selectedProviders;
-    final isAnySelectedProviders = selectedProviders.isNotEmpty;
-    final textColor = isAnySelectedProviders ? Colors.black : Colors.white;
-    final buttonBackgroundColor = isAnySelectedProviders
-        ? Colors.amber
-        : const Color(0xFF1F2228);
+    final registriesGroups = ref.watch(hipsRegistryGroupsProvider).maybeWhen(
+      data: (groups) => groups,
+      orElse: () => null,
+    );
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 0),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonBackgroundColor,
-            padding: const EdgeInsets.symmetric(
-              vertical: 12,
-              horizontal: 20,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+    final totalProviders = registriesGroups?.length ?? 0;
+    final isAllSelected = selectedProviders.length == totalProviders && totalProviders > 0;
 
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder:(dialogContext) {
-                return Consumer(
-                  builder: (context, ref, _) {
-                    return _buildRegistryDialogContent(
-                        context, ref
-                    );
-                  },
+    final buttonText = isAllSelected
+        ? 'All Selected'
+        : (selectedProviders.isEmpty
+            ? 'Filter by provider'
+            : '${selectedProviders.length} Selected');
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF21262D),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 15,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 0,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder:(dialogContext) {
+            return Consumer(
+              builder: (context, ref, _) {
+                return _buildRegistryDialogContent(
+                    context, ref
                 );
               },
             );
           },
+        );
+      },
 
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (isAnySelectedProviders) ...[
-                Text(
-                  '${selectedProviders.length}',
-                  style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-              Text(
-                'Filter by provider',
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            buttonText,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
           ),
-        ),
+          const SizedBox(width: 8),
+          const Icon(
+            Icons.chevron_right,
+            color: Colors.white70,
+            size: 20,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -12,45 +12,39 @@ class FilterFavorites extends ConsumerWidget {
     final favoritesOnly = ref.watch(filtersProvider.select(
         (state) => state.favoritesOnly));
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0D1117),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white,
-        ),
-      ),
-
-      child: Row(
-        children: [
-          Icon(
-            Icons.star,
-            color: Colors.white70,
-            size: 20,
-          ),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: Text(
-                'Favorites only',
-              style: theme.textTheme.bodyMedium?.copyWith(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Show Favorites Only',
+              style: theme.textTheme.bodyLarge?.copyWith(
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-
-          Switch(
-            value: favoritesOnly,
-            onChanged: (_) {
-              ref.read(filtersProvider.notifier).toggleFavoritesOnly();
-            },
-            activeThumbColor: Colors.amber,
-          )
-        ],
-      ),
+            const SizedBox(height: 4),
+            Text(
+              'Filter by your saved items',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+        Switch(
+          value: favoritesOnly,
+          onChanged: (_) {
+            ref.read(filtersProvider.notifier).toggleFavoritesOnly();
+          },
+          activeColor: const Color(0xFF007AFF), 
+          activeTrackColor: const Color(0xFF34C759).withOpacity(0.5), 
+          inactiveThumbColor: Colors.white,
+          inactiveTrackColor: Colors.grey.withOpacity(0.5),
+        )
+      ],
     );
   }
 }
