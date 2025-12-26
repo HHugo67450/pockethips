@@ -29,13 +29,18 @@ class HipsRepository {
     }
   }
 
-  Future<int?> getHipsTotal(String providerUrl) async {
+  Future<int?> getHipsTotal(String providerUrl,
+      List<String> dataproductType) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
       'get': 'number',
       'fmt': 'json',
     };
+
+    if (dataproductType.isNotEmpty) {
+      queryParameters['dataproduct_type'] = dataproductType.map((type) => '*$type*').join(',');
+    }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
 
@@ -56,13 +61,18 @@ class HipsRepository {
     }
   }
 
-  Future<List<HipsDetail>> getHipsDetail(String providerUrl, String providerName) async {
+  Future<List<HipsDetail>> getHipsDetail(String providerUrl,
+      String providerName, List<String> dataproductType) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
       'get': 'record',
       'fmt': 'json',
     };
+
+    if (dataproductType.isNotEmpty) {
+      queryParameters['dataproduct_type'] = dataproductType.map((type) => '*$type*').join(',');
+    }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
 

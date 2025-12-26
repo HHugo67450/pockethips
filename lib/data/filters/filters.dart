@@ -8,7 +8,7 @@ class Filters {
     this.showFilters = true,
     this.favoritesOnly = false,
     this.selectedProviders = const [],
-    this.contentType = const ['Image', 'Catalog', 'Cube']
+    this.contentType = const []
   });
 
   Filters copyWith({

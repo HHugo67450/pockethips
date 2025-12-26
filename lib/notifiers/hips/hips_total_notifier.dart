@@ -11,8 +11,9 @@ class HipsTotalNotifier extends AsyncNotifier<int> {
   @override
   FutureOr<int> build() async {
     final hipsRepository = ref.watch(hipsRepositoryProvider);
-    final selectedProviders = ref.watch(filtersProvider
-        .select((filtersState) => filtersState.selectedProviders));
+    final filters = ref.watch(filtersProvider);
+    final selectedProviders = filters.selectedProviders;
+    final selectedContentTypes = filters.contentType;
     final hipsRegistryGroups = ref.watch(hipsRegistryGroupsProvider).value ?? [];
 
     if (selectedProviders.isEmpty) {
@@ -27,7 +28,10 @@ class HipsTotalNotifier extends AsyncNotifier<int> {
         (group) => group.displayName == providerName,
       );
       for (final registry in group.hipsRegistries) {
-        futures.add(hipsRepository.getHipsTotal(registry.url));
+        futures.add(hipsRepository.getHipsTotal(
+          registry.url,
+          selectedContentTypes,
+        ));
       }
     }
 
