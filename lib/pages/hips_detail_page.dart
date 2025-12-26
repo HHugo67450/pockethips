@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_hips/provider/url_launcher_provider.dart';
 
 import '../data/hips/hips_detail.dart';
 import '../notifiers/hips/hips_image_url_notifier.dart';
@@ -57,6 +58,7 @@ class HipsDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrlAsync = ref.watch(hipsImageUrlProvider(hipsDetail));
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0D1117),
@@ -166,7 +168,13 @@ class HipsDetailPage extends ConsumerWidget {
 
               TextButton(
                 onPressed: () {
-                  // TODO : Lier l'url
+                  ref.read(launchUrlProvider)(hipsDetail.serviceUrl).catchError((_) {
+                    scaffoldMessenger.showSnackBar(
+                        const SnackBar(
+                          content: Text('Could not open the website.'),
+                        ),
+                    );
+                  });
                 },
                 child: const Text(
                   'View Source Website',
