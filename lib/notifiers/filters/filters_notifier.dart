@@ -87,6 +87,16 @@ class FiltersNotifier extends Notifier<Filters> {
   void setYearRange(RangeValues yearRange) {
     state = state.copyWith(yearRange: yearRange);
   }
+  
+  void resetFilters() {
+    state = Filters(
+      yearRange: RangeValues(minYear, maxYear),
+      selectedProviders: [],
+      contentType: [],
+      colorSelected: [],
+      favoritesOnly: false,
+    );
+  }
 }
 
 final filtersProvider = NotifierProvider<FiltersNotifier, Filters>(

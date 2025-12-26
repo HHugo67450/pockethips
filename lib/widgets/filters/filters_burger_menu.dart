@@ -5,6 +5,7 @@ import 'package:pocket_hips/widgets/filters/filter_content.dart';
 import 'package:pocket_hips/widgets/filters/filter_favorites.dart';
 import 'package:pocket_hips/widgets/filters/filter_year_range.dart';
 
+import '../../notifiers/filters/filters_notifier.dart';
 import 'filter_registries.dart';
 
 class FiltersBurgerMenu extends ConsumerWidget {
@@ -36,7 +37,9 @@ class FiltersBurgerMenu extends ConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(filtersProvider.notifier).resetFilters();
+                },
                 child: Text(
                   'Reset',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
