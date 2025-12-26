@@ -35,15 +35,15 @@ class FilterRegistries extends ConsumerWidget {
       child: ListView.separated(
         itemCount: registriesGroups.length,
         separatorBuilder: (_, __) =>
-          const Divider(color: Colors.grey, height: 1),
+          const Divider(color: Color(0xFF30363D), height: 1),
         itemBuilder: (_, index) {
           final registriesGroup = registriesGroups[index];
           final isSelected =
           selectedProviders.contains(registriesGroup.displayName);
 
           return CheckboxListTile(
-            activeColor: Colors.amber,
-            checkColor: Colors.black,
+            activeColor: Colors.blue,
+            checkColor: Colors.white,
             value: isSelected,
             onChanged: (_) {
               ref.read(filtersProvider.notifier)
@@ -54,7 +54,8 @@ class FilterRegistries extends ConsumerWidget {
               registriesGroup.displayName,
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
 
@@ -62,13 +63,12 @@ class FilterRegistries extends ConsumerWidget {
               '${registriesGroup.hipsRegistries.length} registries',
               style: const TextStyle(
                 color: Colors.grey,
-                fontSize: 12,
+                fontSize: 13,
               ),
             ),
 
             controlAffinity: ListTileControlAffinity.trailing,
-
-            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           );
         },
       ),
@@ -78,9 +78,6 @@ class FilterRegistries extends ConsumerWidget {
 
   Widget _buildRegistryDialogContent(
       BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final selectedProviders = ref.watch(filtersProvider).selectedProviders;
-
     return Dialog(
       backgroundColor: const Color(0xFF161B22),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -89,12 +86,21 @@ class FilterRegistries extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Select providers (${selectedProviders.length})',
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Select Registries',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white70),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
             ),
 
             const SizedBox(height: 12),
@@ -107,15 +113,23 @@ class FilterRegistries extends ConsumerWidget {
 
             const SizedBox(height: 12),
 
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: () => Navigator.pop(context),
                 child: const Text(
-                  'Close',
+                  'Confirm Selection',
                   style: TextStyle(
-                    color: Colors.amber,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
