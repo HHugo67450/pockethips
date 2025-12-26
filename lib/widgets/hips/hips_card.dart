@@ -107,7 +107,11 @@ class HipsCard extends ConsumerWidget {
                 children: [
                   _chip(provider),
                   const SizedBox(),
-                  _chip(hipsDetail.contentType),
+                  if (hipsDetail.contentType.isNotEmpty)
+                    _chip(hipsDetail.contentType),
+                  const SizedBox(),
+                  if (hipsDetail.color.isNotEmpty)
+                    _chip(hipsDetail.color)
                 ],
               ),
             ],

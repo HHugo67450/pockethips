@@ -30,7 +30,7 @@ class HipsRepository {
   }
 
   Future<int?> getHipsTotal(String providerUrl,
-      List<String> dataproductType) async {
+      List<String> dataproductType, List<String> color) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
@@ -39,7 +39,13 @@ class HipsRepository {
     };
 
     if (dataproductType.isNotEmpty) {
-      queryParameters['dataproduct_type'] = dataproductType.map((type) => '*$type*').join(',');
+      queryParameters['dataproduct_type'] =
+          dataproductType.map((type) => '*$type*').join(',');
+    }
+
+    if (color.isNotEmpty) {
+      queryParameters['dataproduct_subtype'] =
+          color.map((c) => '*${c.toLowerCase()}*').join(',');
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
@@ -62,7 +68,8 @@ class HipsRepository {
   }
 
   Future<List<HipsDetail>> getHipsDetail(String providerUrl,
-      String providerName, List<String> dataproductType) async {
+      String providerName, List<String> dataproductType,
+      List<String> color) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
@@ -72,6 +79,11 @@ class HipsRepository {
 
     if (dataproductType.isNotEmpty) {
       queryParameters['dataproduct_type'] = dataproductType.map((type) => '*$type*').join(',');
+    }
+
+    if (color.isNotEmpty) {
+      queryParameters['dataproduct_subtype'] =
+          color.map((c) => '*${c.toLowerCase()}*').join(',');
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);

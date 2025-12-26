@@ -63,6 +63,20 @@ class FiltersNotifier extends Notifier<Filters> {
 
     state = state.copyWith(contentType: updated);
   }
+
+
+  void toggleColor(String color) {
+    final updated = List<String>.from(state.colorSelected);
+    final colorLower = color.toLowerCase();
+
+    if (updated.contains(colorLower)) {
+      updated.remove(colorLower);
+    } else {
+      updated.add(colorLower);
+    }
+
+    state = state.copyWith(colorSelected: updated);
+  }
 }
 
 final filtersProvider = NotifierProvider<FiltersNotifier, Filters>(

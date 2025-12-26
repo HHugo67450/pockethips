@@ -13,9 +13,14 @@ class HipsListNotifier extends AsyncNotifier<List<HipsDetail>> {
   FutureOr<List<HipsDetail>> build() async {
     ref.keepAlive();
     final hipsRepository = ref.watch(hipsRepositoryProvider);
-    final filters = ref.watch(filtersProvider);
-    final selectedProviders = filters.selectedProviders;
-    final selectedContentTypes = filters.contentType;
+
+    final selectedProviders = ref.watch(filtersProvider
+        .select((filtersState) => filtersState.selectedProviders));
+    final selectedContentTypes = ref.watch(filtersProvider
+        .select((filtersState) => filtersState.contentType));
+    final selectedColors = ref.watch(filtersProvider
+        .select((filtersState) => filtersState.colorSelected));
+
     final hipsRegistryGroups = ref.watch(hipsRegistryGroupsProvider).value ?? [];
 
     if (selectedProviders.isEmpty) {
@@ -34,6 +39,7 @@ class HipsListNotifier extends AsyncNotifier<List<HipsDetail>> {
           registry.url,
           providerName,
           selectedContentTypes,
+          selectedColors,
         ));
       }
     }

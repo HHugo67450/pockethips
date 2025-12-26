@@ -12,6 +12,7 @@ class HipsDetail {
   final double tMax;
   final String provider;
   final String contentType;
+  final String color;
 
   HipsDetail({
     required this.id,
@@ -27,6 +28,7 @@ class HipsDetail {
     required this.tMax,
     required this.provider,
     required this.contentType,
+    required this.color,
   });
 
   HipsDetail copyWith({
@@ -43,6 +45,7 @@ class HipsDetail {
     double? tMax,
     String? provider,
     String? contentType,
+    String? color,
   }) {
     return HipsDetail(
       id: id ?? this.id,
@@ -58,6 +61,7 @@ class HipsDetail {
       tMax: tMax ?? this.tMax,
       provider: provider ?? this.provider,
       contentType: contentType ?? this.contentType,
+      color: color ?? this.color,
     );
   }
 
@@ -94,6 +98,7 @@ class HipsDetail {
       tMax: parseDouble(json['t_max']),
       provider: provider,
       contentType: parseString(json['dataproduct_type']),
+      color: parseString(json['dataproduct_subtype']),
     );
   }
 }

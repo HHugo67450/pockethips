@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_hips/widgets/filters/filter_color.dart';
 import 'package:pocket_hips/widgets/filters/filter_content.dart';
 import 'package:pocket_hips/widgets/filters/filter_favorites.dart';
 
@@ -28,6 +29,8 @@ class FiltersBurgerMenu extends ConsumerWidget {
           const FilterRegistries(),
           const SizedBox(height: 15),
           const FilterContent(),
+          const SizedBox(height: 15),
+          const FilterColor(),
         ],
       ),
     );
