@@ -37,6 +37,10 @@ class FiltersNotifier extends Notifier<Filters> {
     state = state.copyWith(showFilters: !state.showFilters);
   }
 
+  void toggleFavoritesOnly() {
+    state = state.copyWith(favoritesOnly: !state.favoritesOnly);
+  }
+
   void toggleProvider(String provider) {
     final updated = List<String>.from(state.selectedProviders);
 

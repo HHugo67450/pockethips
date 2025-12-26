@@ -9,7 +9,7 @@ class HipsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hipsListAsync = ref.watch(hipsListProvider);
+    final hipsListAsync = ref.watch(filteredHipsListProvider);
 
     return hipsListAsync.when(
       data: (hipsDetails) {

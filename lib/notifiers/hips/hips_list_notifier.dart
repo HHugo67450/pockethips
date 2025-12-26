@@ -5,6 +5,7 @@ import 'package:pocket_hips/data/hips/hips_detail.dart';
 import 'package:pocket_hips/notifiers/filters/filters_notifier.dart';
 import 'package:pocket_hips/repository/hips_repository.dart';
 
+import '../filters/favorites_notifier.dart';
 import 'hips_registry_notifier.dart';
 
 class HipsListNotifier extends AsyncNotifier<List<HipsDetail>> {
@@ -41,4 +42,27 @@ class HipsListNotifier extends AsyncNotifier<List<HipsDetail>> {
   }
 }
 
-final hipsListProvider = AsyncNotifierProvider<HipsListNotifier, List<HipsDetail>>(HipsListNotifier.new);
+final hipsListProvider = AsyncNotifierProvider
+    <HipsListNotifier, List<HipsDetail>>(HipsListNotifier.new);
+
+final filteredHipsListProvider = Provider<AsyncValue<List<HipsDetail>>>((ref) {
+  final hipsAsync = ref.watch(hipsListProvider);
+  final filters = ref.watch(filtersProvider);
+  final favorites = ref.watch(favoritesProvider);
+
+  return hipsAsync.when(
+    data: (hipsDetails) {
+      Iterable<HipsDetail> result = hipsDetails;
+
+      if (filters.favoritesOnly) {
+        result = result.where(
+            (hipsDetail) => favorites.contains(hipsDetail.id),
+        );
+      }
+
+      return AsyncValue.data(result.toList());
+    },
+    loading: () => const AsyncValue.loading(),
+    error: (e, st) => AsyncValue.error(e, st),
+  );
+});

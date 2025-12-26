@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_hips/data/hips/hips_detail.dart';
+import 'package:pocket_hips/notifiers/filters/favorites_notifier.dart';
 import 'package:pocket_hips/pages/hips_detail_page.dart';
 
 import '../../notifiers/hips/hips_image_url_notifier.dart';
@@ -72,6 +73,10 @@ class HipsCard extends ConsumerWidget {
   Widget _content(BuildContext context, WidgetRef ref) {
     final title = hipsDetail.title;
     final provider = hipsDetail.provider;
+    final isFavorite = ref.watch(favoritesProvider.select(
+        (favorites) => favorites.contains(hipsDetail.id),
+      ),
+    );
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,12 +114,12 @@ class HipsCard extends ConsumerWidget {
 
         IconButton(
             onPressed: () {
-              // TODO : Ajouter le HiPS aux favoris
+              ref.read(favoritesProvider.notifier).toggleFavorite(hipsDetail);
             },
-            icon: const Icon(
-              Icons.star_border,
-              color: Colors.amber,
-            ),
+          icon: Icon(
+            isFavorite ? Icons.star : Icons.star_border,
+            color: Colors.amber,
+          ),
         ),
       ],
     );
