@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_hips/widgets/filters/filter_color.dart';
 import 'package:pocket_hips/widgets/filters/filter_content.dart';
 import 'package:pocket_hips/widgets/filters/filter_favorites.dart';
+import 'package:pocket_hips/widgets/filters/filter_year_range.dart';
 
 import 'filter_registries.dart';
 
@@ -31,6 +32,8 @@ class FiltersBurgerMenu extends ConsumerWidget {
           const FilterContent(),
           const SizedBox(height: 15),
           const FilterColor(),
+          const SizedBox(height: 15),
+          const FilterYearRange(),
         ],
       ),
     );

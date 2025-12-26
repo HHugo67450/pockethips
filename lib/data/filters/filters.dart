@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+
 class Filters {
   final bool showFilters;
   final bool favoritesOnly;
   final List<String> selectedProviders;
   final List<String> contentType;
   final List<String> colorSelected;
+  final RangeValues? yearRange;
 
   const Filters({
     this.showFilters = true,
@@ -11,6 +14,7 @@ class Filters {
     this.selectedProviders = const [],
     this.contentType = const [],
     this.colorSelected = const [],
+    this.yearRange,
   });
 
   Filters copyWith({
@@ -19,6 +23,7 @@ class Filters {
     List<String>? selectedProviders,
     List<String>? contentType,
     List<String>? colorSelected,
+    RangeValues? yearRange,
   }) {
     return Filters(
       showFilters: showFilters ?? this.showFilters,
@@ -26,6 +31,7 @@ class Filters {
       selectedProviders: selectedProviders ?? this.selectedProviders,
       contentType: contentType ?? this.contentType,
       colorSelected: colorSelected ?? this.colorSelected,
+      yearRange: yearRange ?? this.yearRange,
     );
   }
 }

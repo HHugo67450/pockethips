@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/filters/filters.dart';
@@ -5,6 +6,9 @@ import '../hips/hips_registry_notifier.dart';
 
 class FiltersNotifier extends Notifier<Filters> {
   bool _initialized = false;
+
+  final double minYear = 1950.0;
+  final double maxYear = DateTime.now().year.toDouble();
 
   @override
   Filters build() {
@@ -14,7 +18,9 @@ class FiltersNotifier extends Notifier<Filters> {
         initDefaultProvider(providers);
       });
     });
-    return const Filters();
+    return Filters(
+      yearRange: RangeValues(minYear, maxYear),
+    );
   }
 
   void initDefaultProvider(List<String> providers) {
@@ -76,6 +82,10 @@ class FiltersNotifier extends Notifier<Filters> {
     }
 
     state = state.copyWith(colorSelected: updated);
+  }
+
+  void setYearRange(RangeValues yearRange) {
+    state = state.copyWith(yearRange: yearRange);
   }
 }
 

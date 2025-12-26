@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/hips/hips_detail.dart';
 import '../data/hips/hips_registry.dart';
+import '../utils/date_utils.dart';
 
 class HipsRepository {
 
@@ -30,7 +32,8 @@ class HipsRepository {
   }
 
   Future<int?> getHipsTotal(String providerUrl,
-      List<String> dataproductType, List<String> color) async {
+      List<String> dataproductType, List<String> color,
+      RangeValues yearRange) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
@@ -46,6 +49,13 @@ class HipsRepository {
     if (color.isNotEmpty) {
       queryParameters['dataproduct_subtype'] =
           color.map((c) => '*${c.toLowerCase()}*').join(',');
+    }
+
+    if (yearRange.start != 1950.0
+        || yearRange.end != DateTime.now().year.toDouble()) {
+      final startMjd = yearToMjd(yearRange.start);
+      final endMjd = yearToMjd(yearRange.end);
+      queryParameters['TIME'] = '$startMjd $endMjd';
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
@@ -69,7 +79,7 @@ class HipsRepository {
 
   Future<List<HipsDetail>> getHipsDetail(String providerUrl,
       String providerName, List<String> dataproductType,
-      List<String> color) async {
+      List<String> color, RangeValues yearRange) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
@@ -84,6 +94,13 @@ class HipsRepository {
     if (color.isNotEmpty) {
       queryParameters['dataproduct_subtype'] =
           color.map((c) => '*${c.toLowerCase()}*').join(',');
+    }
+
+    if (yearRange.start != 1950.0
+        || yearRange.end != DateTime.now().year.toDouble()) {
+      final startMjd = yearToMjd(yearRange.start);
+      final endMjd = yearToMjd(yearRange.end);
+      queryParameters['TIME'] = '$startMjd $endMjd';
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);

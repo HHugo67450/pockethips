@@ -1,9 +1,19 @@
+double? dateTimeToMjd(DateTime dateTime) {
+  final mjdEpoch = DateTime.utc(1858, 11, 17);
+  return dateTime.difference(mjdEpoch).inMilliseconds / 86400000.0;
+}
+
+double? yearToMjd(double year) {
+  final dateTime = DateTime.utc(year.toInt());
+  return dateTimeToMjd(dateTime);
+}
+
 DateTime? mjdToDateTime(double mjd) {
   if (mjd == 0) {
     return null;
   }
-    final mjdEpoch = DateTime.utc(1858, 11, 17);
-    return mjdEpoch.add(Duration(milliseconds: (mjd * 86400000).round()));
+  final mjdEpoch = DateTime.utc(1858, 11, 17);
+  return mjdEpoch.add(Duration(milliseconds: (mjd * 86400000).round()));
 }
 
 String formatMjdRange(double tMin, double tMax) {
