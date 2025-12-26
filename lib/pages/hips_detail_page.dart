@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/hips/hips_detail.dart';
 import '../notifiers/hips/hips_image_url_notifier.dart';
 import '../utils/date_utils.dart';
+import '../provider/sharing_provider.dart'; // Added import
 
 class HipsDetailPage extends ConsumerWidget {
   final HipsDetail hipsDetail;
@@ -72,7 +73,13 @@ class HipsDetailPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.share, color: Colors.white),
             onPressed: () {
-              // TODO : partage sur les réseaux/SMS
+              final sharingService = ref.read(sharingProvider);
+              sharingService.share(
+                text: 'Check out this amazing HiPS: ${hipsDetail.title}! '
+                    'Learn more here: ${hipsDetail.serviceUrl}',
+                subject: hipsDetail.title,
+                title: 'Share HiPS',
+              );
             },
           ),
         ],
