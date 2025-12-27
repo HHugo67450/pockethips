@@ -50,26 +50,25 @@ class _ExploreState extends ConsumerState<Explore> {
           ),
       ),
 
-      body:
-        CustomScrollView(
-          slivers: [
-            if (filtersState.showFilters) ...[
-              const SliverToBoxAdapter(child:
-                FiltersBurgerMenu()
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Divider(color: Colors.grey[800]),
-                ),
-              ),
-            ],
-
-            HipsTotalDisplay(hipsTotalAsync: hipsTotalAsync),
-
-            const SliverFillRemaining(child: HipsList()),
+      body: Column(
+        children: [
+          if (filtersState.showFilters) ...[
+            const FiltersBurgerMenu(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Divider(color: Colors.grey[800]),
+            ),
           ],
-        ),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                HipsTotalDisplay(hipsTotalAsync: hipsTotalAsync),
+                const SliverFillRemaining(child: HipsList()),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
