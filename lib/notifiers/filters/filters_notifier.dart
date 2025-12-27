@@ -87,6 +87,14 @@ class FiltersNotifier extends Notifier<Filters> {
   void setYearRange(RangeValues yearRange) {
     state = state.copyWith(yearRange: yearRange);
   }
+
+  void toggleSearch() {
+    state = state.copyWith(isSearching: !state.isSearching);
+  }
+
+  void setSearchQuery(String searchQuery) {
+    state = state.copyWith(searchQuery: searchQuery);
+  }
   
   void resetFilters() {
     state = Filters(
@@ -95,6 +103,7 @@ class FiltersNotifier extends Notifier<Filters> {
       contentType: [],
       colorSelected: [],
       favoritesOnly: false,
+      searchQuery: "",
     );
   }
 }

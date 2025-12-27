@@ -39,10 +39,10 @@ class FilterFavorites extends ConsumerWidget {
           onChanged: (_) {
             ref.read(filtersProvider.notifier).toggleFavoritesOnly();
           },
-          activeColor: const Color(0xFF007AFF), 
-          activeTrackColor: const Color(0xFF34C759).withOpacity(0.5), 
+          activeThumbColor: const Color(0xFF007AFF),
+          activeTrackColor: const Color(0xFF34C759).withValues(alpha: 0.5),
           inactiveThumbColor: Colors.white,
-          inactiveTrackColor: Colors.grey.withOpacity(0.5),
+          inactiveTrackColor: Colors.grey.withValues(alpha: 0.5),
         )
       ],
     );

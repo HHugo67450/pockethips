@@ -7,6 +7,8 @@ class Filters {
   final List<String> contentType;
   final List<String> colorSelected;
   final RangeValues? yearRange;
+  final bool isSearching;
+  final String searchQuery;
 
   const Filters({
     this.showFilters = true,
@@ -15,6 +17,8 @@ class Filters {
     this.contentType = const [],
     this.colorSelected = const [],
     this.yearRange,
+    this.isSearching = false,
+    this.searchQuery = "",
   });
 
   Filters copyWith({
@@ -24,6 +28,8 @@ class Filters {
     List<String>? contentType,
     List<String>? colorSelected,
     RangeValues? yearRange,
+    bool? isSearching,
+    String? searchQuery,
   }) {
     return Filters(
       showFilters: showFilters ?? this.showFilters,
@@ -32,6 +38,8 @@ class Filters {
       contentType: contentType ?? this.contentType,
       colorSelected: colorSelected ?? this.colorSelected,
       yearRange: yearRange ?? this.yearRange,
+      isSearching: isSearching ?? this.isSearching,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }

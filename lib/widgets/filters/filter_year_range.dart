@@ -53,7 +53,7 @@ class FilterYearRange extends ConsumerWidget {
             activeTrackColor: Colors.blue,
             inactiveTrackColor: Colors.white24,
             thumbColor: Colors.blue,
-            overlayColor: Colors.blue.withOpacity(0.2),
+            overlayColor: Colors.blue.withValues(alpha: 0.2),
             trackHeight: 2.0,
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 16.0),

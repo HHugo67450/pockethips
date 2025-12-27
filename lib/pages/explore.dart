@@ -15,6 +15,21 @@ class Explore extends ConsumerStatefulWidget {
 }
 
 class _ExploreState extends ConsumerState<Explore> {
+  final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      ref.read(filtersProvider.notifier).setSearchQuery(_searchController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +43,18 @@ class _ExploreState extends ConsumerState<Explore> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        leading:
-          IconButton(
+        leading: filtersState.isSearching
+          ? IconButton(
+            onPressed: () {
+              filtersNotifier.toggleSearch();
+              _searchController.text = "";
+            },
+            icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white
+            ),
+          )
+          : IconButton(
               onPressed: () {
                 filtersNotifier.toggleFilters();
               },
@@ -39,8 +64,21 @@ class _ExploreState extends ConsumerState<Explore> {
               ),
           ),
 
-        title:
-          const Text(
+        title: filtersState.isSearching
+          ? TextField(
+            controller: _searchController,
+            autofocus: true,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18.0
+            ),
+            decoration: const InputDecoration(
+              hintText: 'Search by title...',
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+            ),
+          )
+          : const Text(
             "Explore & Filter",
             style: TextStyle(
               fontSize: 20,
@@ -48,6 +86,21 @@ class _ExploreState extends ConsumerState<Explore> {
               color: Colors.white,
             ),
           ),
+
+        actions: [
+          if (filtersState.isSearching)
+            IconButton(
+              icon: const Icon(Icons.clear, color: Colors.white),
+              onPressed: () {
+                _searchController.text = "";
+              },
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.search, color: Colors.white),
+              onPressed: filtersNotifier.toggleSearch,
+            ),
+        ],
       ),
 
       body: Column(

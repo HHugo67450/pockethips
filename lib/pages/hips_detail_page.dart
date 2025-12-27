@@ -169,7 +169,7 @@ class HipsDetailPage extends ConsumerWidget {
             icon: const Icon(Icons.shuffle, color: Colors.white),
             label: const Text('Random', style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.black.withValues(alpha: 0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
