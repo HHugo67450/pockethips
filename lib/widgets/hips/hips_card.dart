@@ -138,7 +138,7 @@ class HipsCard extends ConsumerWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => HipsDetailPage(hipsDetail: hipsDetail),
+              builder: (context) => HipsDetailPage(initialHipsDetail: hipsDetail),
           ),
         );
       },

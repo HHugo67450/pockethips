@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -151,6 +152,76 @@ class HipsRepository {
     return url;
   }
 
+  Future<HipsDetail> getRandomHips() async {
+    final registries = await getHipsRegistries();
+
+    if (registries.isEmpty) {
+      throw Exception('No HIPS registries found');
+    }
+
+    final uniqueProviders = <String, HipsRegistry>{};
+    for (final reg in registries) {
+      if (!uniqueProviders.containsKey(reg.provider)) {
+        uniqueProviders[reg.provider] = reg;
+      }
+    }
+
+    final Map<HipsRegistry, int> providerTotals = {};
+    int totalHipsAcrossAllProviders = 0;
+
+    for (final registry in uniqueProviders.values) {
+      try {
+        final total = await getHipsTotal(
+          registry.url,
+          [],
+          [],
+          RangeValues(1950.0, DateTime.now().year.toDouble()),
+        );
+        if (total != null && total > 0) {
+          providerTotals[registry] = total;
+          totalHipsAcrossAllProviders += total;
+        }
+      } catch (e, st) {
+        debugPrint(
+          '[HipsRepository][ERROR] Exception while fetching HIPS total for provider ${registry.provider}: $e $st',
+        );
+      }
+    }
+
+    if (providerTotals.isEmpty || totalHipsAcrossAllProviders == 0) {
+      throw Exception('No HIPS found across any providers');
+    }
+
+    final random = Random();
+    int randomWeight = random.nextInt(totalHipsAcrossAllProviders);
+
+    HipsRegistry? selectedRegistry;
+    for (final entry in providerTotals.entries) {
+      randomWeight -= entry.value;
+      if (randomWeight < 0) {
+        selectedRegistry = entry.key;
+        break;
+      }
+    }
+
+    if (selectedRegistry == null) {
+      throw Exception('Failed to select a random registry');
+    }
+
+    final hipsDetails = await getHipsDetail(
+      selectedRegistry.url,
+      selectedRegistry.provider,
+      [],
+      [],
+      RangeValues(1950.0, DateTime.now().year.toDouble()),
+    );
+
+    if (hipsDetails.isEmpty) {
+      throw Exception('No HIPS details found for selected registry: ${selectedRegistry.provider}');
+    }
+
+    return hipsDetails[random.nextInt(hipsDetails.length)];
+  }
 }
 
 String replaceUrlWithWildcards(String url) {
