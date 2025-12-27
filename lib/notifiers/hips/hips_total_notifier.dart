@@ -20,6 +20,8 @@ class HipsTotalNotifier extends AsyncNotifier<int> {
         .select((filtersState) => filtersState.colorSelected));
     final yearRange = ref.watch(filtersProvider
         .select((filtersState) => filtersState.yearRange));
+    final searchQuery = ref.watch(filtersProvider
+        .select((filtersState) => filtersState.searchQuery));
 
     final hipsRegistryGroups = ref.watch(hipsRegistryGroupsProvider)
         .value ?? [];
@@ -41,6 +43,7 @@ class HipsTotalNotifier extends AsyncNotifier<int> {
           selectedContentTypes,
           selectedColors,
           yearRange!,
+          searchQuery,
         ));
       }
     }

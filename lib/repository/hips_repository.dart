@@ -33,12 +33,13 @@ class HipsRepository {
 
   Future<int?> getHipsTotal(String providerUrl,
       List<String> dataproductType, List<String> color,
-      RangeValues yearRange) async {
+      RangeValues yearRange, String searchQuery) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
       'get': 'number',
       'fmt': 'json',
+      'casesensitive': 'false',
     };
 
     if (dataproductType.isNotEmpty) {
@@ -56,6 +57,10 @@ class HipsRepository {
       final startMjd = yearToMjd(yearRange.start);
       final endMjd = yearToMjd(yearRange.end);
       queryParameters['TIME'] = '$startMjd $endMjd';
+    }
+
+    if (searchQuery.isNotEmpty) {
+      queryParameters['obs_title'] = "*${searchQuery.toLowerCase()}*";
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
@@ -79,12 +84,13 @@ class HipsRepository {
 
   Future<List<HipsDetail>> getHipsDetail(String providerUrl,
       String providerName, List<String> dataproductType,
-      List<String> color, RangeValues yearRange) async {
+      List<String> color, RangeValues yearRange, String searchQuery) async {
     const url = 'https://alasky.cds.unistra.fr/MocServer/query';
     final queryParameters = <String, String> {
       'hips_service_url': replaceUrlWithWildcards(providerUrl),
       'get': 'record',
       'fmt': 'json',
+      'casesensitive': 'false',
     };
 
     if (dataproductType.isNotEmpty) {
@@ -101,6 +107,10 @@ class HipsRepository {
       final startMjd = yearToMjd(yearRange.start);
       final endMjd = yearToMjd(yearRange.end);
       queryParameters['TIME'] = '$startMjd $endMjd';
+    }
+
+    if (searchQuery.isNotEmpty) {
+      queryParameters['obs_title'] = "*${searchQuery.toLowerCase()}*";
     }
 
     final uri = Uri.parse(url).replace(queryParameters: queryParameters);
@@ -175,6 +185,7 @@ class HipsRepository {
           [],
           [],
           RangeValues(1950.0, DateTime.now().year.toDouble()),
+          "",
         );
         if (total != null && total > 0) {
           providerTotals[registry] = total;
@@ -213,6 +224,7 @@ class HipsRepository {
       [],
       [],
       RangeValues(1950.0, DateTime.now().year.toDouble()),
+      "",
     );
 
     if (hipsDetails.isEmpty) {
