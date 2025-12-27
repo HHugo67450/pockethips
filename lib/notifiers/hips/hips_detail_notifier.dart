@@ -29,3 +29,8 @@ final hipsDetailNotifierProvider =
   final hipsRepository = ref.watch(hipsRepositoryProvider);
   return HipsDetailNotifier(initialHipsDetail, hipsRepository);
 });
+
+final randomHipsDetailProvider = FutureProvider.autoDispose<HipsDetail>((ref) async {
+  final hipsRepository = ref.watch(hipsRepositoryProvider);
+  return hipsRepository.getRandomHips();
+});
