@@ -258,18 +258,24 @@ class HipsDetailPage extends ConsumerWidget {
           backgroundColor: const Color(0xFF0D1117),
           appBar: _buildAppBar(context, ref, hipsDetail),
           body: SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHipsImageStack(context, ref, hipsDetail, imageUrlAsync, scaffoldMessenger),
-                  const SizedBox(height: 24),
-                  _buildDescriptionSection(hipsDetail),
-                  const SizedBox(height: 24),
-                  _buildDetailsSection(hipsDetail),
-                  _buildSourceWebsiteButton(context, ref, hipsDetail, scaffoldMessenger),
-                ],
+            child: RefreshIndicator(
+              onRefresh: () async {
+                ref.invalidate(hipsDetailNotifierProvider(initialHipsDetail));
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHipsImageStack(context, ref, hipsDetail, imageUrlAsync, scaffoldMessenger),
+                    const SizedBox(height: 24),
+                    _buildDescriptionSection(hipsDetail),
+                    const SizedBox(height: 24),
+                    _buildDetailsSection(hipsDetail),
+                    _buildSourceWebsiteButton(context, ref, hipsDetail, scaffoldMessenger),
+                  ],
+                ),
               ),
             ),
           ),

@@ -44,7 +44,7 @@ class HipsRepository {
 
     if (dataproductType.isNotEmpty) {
       queryParameters['dataproduct_type'] =
-          dataproductType.map((type) => '*$type*').join(',');
+          dataproductType.map((type) => '*${type.toLowerCase()}*').join(',');
     }
 
     if (color.isNotEmpty) {
@@ -94,7 +94,8 @@ class HipsRepository {
     };
 
     if (dataproductType.isNotEmpty) {
-      queryParameters['dataproduct_type'] = dataproductType.map((type) => '*$type*').join(',');
+      queryParameters['dataproduct_type'] =
+          dataproductType.map((type) => '*${type.toLowerCase()}*').join(',');
     }
 
     if (color.isNotEmpty) {

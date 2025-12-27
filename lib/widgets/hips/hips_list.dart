@@ -13,12 +13,17 @@ class HipsList extends ConsumerWidget {
 
     return hipsListAsync.when(
       data: (hipsDetails) {
-        return ListView.builder(
-          itemCount: hipsDetails.length,
-          itemBuilder: (context, index) {
-            final hipsDetail = hipsDetails[index];
-            return HipsCard(hipsDetail: hipsDetail);
+        return RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(filteredHipsListProvider);
           },
+          child: ListView.builder(
+            itemCount: hipsDetails.length,
+            itemBuilder: (context, index) {
+              final hipsDetail = hipsDetails[index];
+              return HipsCard(hipsDetail: hipsDetail);
+            },
+          ),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
